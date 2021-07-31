@@ -1,5 +1,7 @@
 from pymongo import MongoClient
-from basedbin import database_host as host
+from basedbin import app
+
+host = app.config["DATABASE"]
 
 client = MongoClient(
     host.hostname, int(host.port), username=host.user, password=host.password

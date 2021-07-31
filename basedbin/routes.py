@@ -1,4 +1,5 @@
-from basedbin import app, limiter
+from basedbin import app
+from basedbin.config import limiter
 from basedbin.database import db, allowed_media_types
 from basedbin.helpers import gen_html_error
 from flask import request, jsonify, make_response
