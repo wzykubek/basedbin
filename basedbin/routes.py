@@ -4,6 +4,7 @@ from basedbin.database import db, allowed_media_types
 from basedbin.helpers import gen_html_error
 from flask import request, jsonify, make_response
 from bson.objectid import ObjectId
+from bson.errors import InvalidId
 from base64 import b64decode, b64encode
 
 
@@ -30,18 +31,21 @@ def upload():
         ).inserted_id
         return str(paste_id), 201
     else:
-        return gen_html_error(415, "Invalid file type"), 415
+        return gen_html_error(415, "Invalid file type")
 
 
 @app.route("/paste/<paste_id>", methods=["GET"])
 def paste(paste_id: str):
-    results = [x for x in db.files.find({"_id": ObjectId(paste_id)})]
+    try:
+        results = [x for x in db.files.find({"_id": ObjectId(paste_id)})]
+    except InvalidId:
+        return gen_html_error(400, "Invalid paste id")
     if len(results) == 1:
         paste = results[0]
         paste_content = paste["content"]
         image_format = request.args.get("image_format", default="image", type=str)
         if image_format not in ["image", "base64"]:
-            return gen_html_error(400, "Invalid file format"), 400
+            return gen_html_error(400, "Invalid file format")
         if (
             image_format != "base64"
             and "file_type" in paste.keys()
