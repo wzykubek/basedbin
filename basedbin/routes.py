@@ -37,11 +37,10 @@ def upload():
 @app.route("/paste/<paste_id>", methods=["GET"])
 def paste(paste_id: str):
     try:
-        results = [x for x in db.files.find({"_id": ObjectId(paste_id)})]
+        paste = db.files.find_one({"_id": ObjectId(paste_id)})
     except InvalidId:
         return gen_html_error(400, "Invalid paste id")
-    if len(results) == 1:
-        paste = results[0]
+    if paste:
         paste_content = paste["content"]
         image_format = request.args.get("image_format", default="image", type=str)
         if image_format not in ["image", "base64"]:
@@ -64,3 +63,5 @@ def paste(paste_id: str):
             return response
         else:
             return paste_content.decode("utf-8"), 200
+    else:
+        return gen_html_error(404, "Paste not found")
