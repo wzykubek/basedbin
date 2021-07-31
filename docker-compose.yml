@@ -1,0 +1,26 @@
+version: "3.1"
+
+services:
+  db:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  app:
+    build: .
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: example
+    depends_on: 
+      - db
+
+  nginx:
+    build: ./services/nginx
+    ports:
+      - 8080:80
+    depends_on: 
+      - app
