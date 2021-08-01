@@ -1,7 +1,7 @@
 from basedbin import app
 from basedbin.config import limiter
 from basedbin.database import db, allowed_media_types
-from fastapi import File, UploadFile, Depends, Request, HTTPException
+from fastapi import File, UploadFile, Request, HTTPException
 from fastapi.responses import Response
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
