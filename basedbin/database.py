@@ -1,7 +1,6 @@
 from pymongo import MongoClient
 from basedbin import app
-
-host = app.config["DATABASE"]
+from basedbin.config import database as host
 
 client = MongoClient(
     host.hostname, int(host.port), username=host.user, password=host.password
@@ -13,4 +12,4 @@ class db(object):
     files = database["files"]
 
 
-allowed_media_types = ["image/png", "image/jpeg"]
+allowed_media_types = ["text/plain", "image/png", "image/jpeg"]

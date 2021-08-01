@@ -1,5 +1,6 @@
-from flask import Flask
+from fastapi import FastAPI
+from fastapi_limiter import FastAPILimiter
 
-app = Flask(__name__)
+app = FastAPI()
 
 from basedbin import routes
