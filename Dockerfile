@@ -1,4 +1,4 @@
-FROM python:3.9.5-alpine
+FROM python:3.9.5-slim
 
 EXPOSE 5000
 
@@ -19,4 +19,4 @@ COPY . /app
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "basedbin:app"]
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:5000", "basedbin:app"]
