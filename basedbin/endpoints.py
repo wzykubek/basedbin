@@ -28,7 +28,9 @@ async def upload_file(request: Request, file: UploadFile = File(...)):
 
 
 @app.get("/paste/{paste_id}")
-async def get_paste(paste_id: str, file_format: Optional[str] = None):
+async def get_paste(
+    paste_id: str, file_format: Optional[str] = None, plain_text_output: bool = False
+):
     try:
         paste = db.files.find_one({"_id": ObjectId(paste_id)})
         if paste:
@@ -41,7 +43,11 @@ async def get_paste(paste_id: str, file_format: Optional[str] = None):
                 file_ext = content_type.split("/")[1]
                 return Response(image, media_type=content_type)
             elif file_format is None or file_format == "base64":
-                return {"file_content": paste_content.decode("utf-8")}
+                if plain_text_output:
+                    paste_content = paste_content.decode("utf-8")
+                    return Response(paste_content, media_type="text/plain")
+                else:
+                    return {"file_content": paste_content}
         else:
             raise HTTPException(404, "Paste not found")
     except InvalidId:
