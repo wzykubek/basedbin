@@ -16,12 +16,12 @@ async def upload_file(request: Request, file: UploadFile = File(...)):
         file_content = file.file.read()
         if content_type.startswith("image/"):
             file_content = b64encode(bytes(file_content))
-        obj = {
-            "content_type": content_type,
-            "file_content": file_content
-        }
+        obj = {"content_type": content_type, "file_content": file_content}
         paste_id = db.files.insert_one(obj).inserted_id
-        return {"paste_id": str(paste_id)}
+        return {
+            "paste_id": str(paste_id),
+            "paste_url": f"{request.base_url}paste/{str(paste_id)}",
+        }
     else:
         raise HTTPException(415, "Invalid file type")
 
