@@ -3,4 +3,4 @@ from fastapi_limiter import FastAPILimiter
 
 app = FastAPI()
 
-from basedbin import routes
+from basedbin import endpoints
