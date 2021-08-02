@@ -40,7 +40,6 @@ async def get_paste(
             elif file_format == "image":
                 image = b64decode(paste_content)
                 content_type = paste["content_type"]
-                file_ext = content_type.split("/")[1]
                 return Response(image, media_type=content_type)
             elif file_format is None or file_format == "base64":
                 if plain_text_output:
