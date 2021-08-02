@@ -1,0 +1,6 @@
+{
+    "python.formatting.provider": "black",
+    "python.pythonPath": ".venv/venv/bin/python3.9",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true
+}
