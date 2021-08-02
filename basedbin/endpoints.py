@@ -36,7 +36,7 @@ async def get_paste(
         if paste:
             paste_content = paste["file_content"]
             if file_format is not None and file_format not in ["image", "base64"]:
-                raise HTTPException(400, detail="Invalid file format")
+                raise HTTPException(400, "Invalid file format")
             elif file_format == "image":
                 image = b64decode(paste_content)
                 content_type = paste["content_type"]
@@ -50,4 +50,4 @@ async def get_paste(
         else:
             raise HTTPException(404, "Paste not found")
     except InvalidId:
-        raise HTTPException(415, detail="Invalid paste ID")
+        raise HTTPException(415, "Invalid paste ID")
