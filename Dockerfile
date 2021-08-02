@@ -1,5 +1,7 @@
 FROM python:3.9.5-slim
 
+LABEL org.opencontainers.image.source https://github.com/samedamci/basedbin
+
 EXPOSE 5000
 
 ENV PYTHONDONTWRITEBYTECODE=1
