@@ -7,6 +7,7 @@ from typing import Optional
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
 from base64 import b64decode, b64encode
+from datetime import datetime
 
 
 @app.post("/upload")
@@ -15,9 +16,16 @@ async def upload_file(request: Request, file: UploadFile = File(...)):
     content_type = file.content_type
     if content_type in allowed_media_types:
         file_content = file.file.read()
+        file_name = file.filename
         if content_type.startswith("image/"):
             file_content = b64encode(bytes(file_content))
-        obj = {"content_type": content_type, "file_content": file_content}
+        date = datetime.now().isoformat()
+        obj = {
+            "content_type": content_type,
+            "upload_date": date,
+            "file_name": file_name,
+            "file_content": file_content,
+        }
         paste_id = db.files.insert_one(obj).inserted_id
         return {
             "paste_id": str(paste_id),
@@ -46,7 +54,8 @@ async def get_paste(
                     paste_content = paste_content.decode("utf-8")
                     return Response(paste_content, media_type="text/plain")
                 else:
-                    return {"file_content": paste_content}
+                    paste["_id"] = str(paste["_id"])
+                    return paste
         else:
             raise HTTPException(404, "Paste not found")
     except InvalidId:
