@@ -1,6 +1,6 @@
 from basedbin import app
-from basedbin.config import limiter
-from basedbin.database import db, allowed_media_types
+from basedbin.config import limiter, ALLOWED_MEDIA_TYPES
+from basedbin.database import db
 from fastapi import File, UploadFile, Request, HTTPException
 from fastapi.responses import Response
 from typing import Optional
@@ -14,7 +14,7 @@ from datetime import datetime
 @limiter.limit("1/second")
 async def upload_file(request: Request, file: UploadFile = File(...)):
     content_type = file.content_type
-    if content_type in allowed_media_types:
+    if content_type.split("/")[0] in ALLOWED_MEDIA_TYPES:
         file_content = file.file.read()
         file_name = file.filename
         if content_type.startswith("image/"):

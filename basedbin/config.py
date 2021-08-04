@@ -16,3 +16,4 @@ class database(object):
 # app.config["MAX_CONTENT_LENGTH"] = MAX_FILE_SIZE * 1024 * 1024
 
 limiter = Limiter(key_func=get_remote_address)
+ALLOWED_MEDIA_TYPES = ["text", "image"]

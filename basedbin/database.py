@@ -10,6 +10,3 @@ database = client["basedbin"]
 
 class db(object):
     files = database["files"]
-
-
-allowed_media_types = ["text/plain", "image/png", "image/jpeg"]
