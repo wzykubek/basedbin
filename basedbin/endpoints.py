@@ -8,6 +8,7 @@ from bson.objectid import ObjectId
 from bson.errors import InvalidId
 from base64 import b64decode, b64encode
 from datetime import datetime
+from os import path
 
 
 @app.post("/upload")
@@ -16,7 +17,7 @@ async def upload_file(request: Request, file: UploadFile = File(...)):
     content_type = file.content_type
     if content_type.split("/")[0] in ALLOWED_MEDIA_TYPES:
         file_content = file.file.read()
-        file_name = file.filename
+        file_name = path.basename(file.filename)
         if content_type.startswith("image/"):
             file_content = b64encode(bytes(file_content))
         date = datetime.now().isoformat()
