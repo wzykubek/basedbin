@@ -36,3 +36,4 @@ Go to `/docs` API endpoint for documentation.
 ## Other stuff
 
 + [basedbinpy](https://github.com/samedamci/basedbinpy) - simple Python client library 
++ [basedbin-frontend](https://github.com/samedamci/basedbin-frontend) - based Flask frontend
